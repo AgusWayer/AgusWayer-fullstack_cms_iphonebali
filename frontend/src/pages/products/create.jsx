@@ -4,56 +4,96 @@ import { optionData } from "@/data";
 import axios from "axios";
 
 const Create = ({ fetchCategory, fetchLabel, fetchStatus }) => {
-  const [formValues, setFormValues] = useState({
-    name: "",
-    category: "",
-    image: "",
-    price: "",
-    label: "",
-    status: "",
-  });
-  const handleInputChange = (e) => {
-    const { name, value, type, files } = e.target;
-    if (type == "file") {
-      const file = e.target.files[0];
-      const allowedTypes = ["image/jpeg", "image/webp", "image/png", "image/gif", "image/tiff", "image/bmp", "image/svg", "image/heif"];
-      if (!allowedTypes.includes(file.type)) {
-        alert("file must be image!");
-        return (e.target.value = "");
-      }
-      console.log(file);
-      setFormValues((prev) => ({ ...prev, [name]: file }));
-    } else {
-      setFormValues((prev) => ({ ...prev, [name]: value }));
-    }
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [image, setImage] = useState("");
+  const [price, setPrice] = useState("");
+  const [label, setLabel] = useState("");
+  const [status, setStatus] = useState("");
+  // const [formValues, setFormValues] = useState({
+  //   name: "",
+  //   category: "",
+  //   image: "",
+  //   price: "",
+  //   label: "",
+  //   status: "",
+  // });
+  const handleName = (e) => {
+    setName(e.target.value);
   };
+  const handleCategory = (e) => {
+    setCategory(e.target.value);
+  };
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    const allowedTypes = ["image/jpeg", "image/webp", "image/png", "image/gif", "image/tiff", "image/bmp", "image/svg", "image/heif"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("file must be image!");
+      return (e.target.value = "");
+    }
+    setImage(file);
+  };
+  const handlePrice = (e) => {
+    setPrice(e.target.value);
+  };
+  const handleLabel = (e) => {
+    setLabel(e.target.value);
+  };
+  const handleStatus = (e) => {
+    setStatus(e.target.value);
+  };
+  // const handleInputChange = (e) => {
+  //   // const { name, value, type, files } = e.target;
+  //   // if (type == "file") {
+  //   //   const allowedTypes = ["image/jpeg", "image/webp", "image/png", "image/gif", "image/tiff", "image/bmp", "image/svg", "image/heif"];
+  //   //   if (!allowedTypes.includes(files[0].type)) {
+  //   //     alert("file must be image!");
+  //   //     return (e.target.value = "");
+  //   //   }
+  //   //   const reader = new FileReader();
+  //   //   reader.onload = () => {
+  //   //     setFormValues((prev) => ({ ...prev, [name]: reader.result }));
+  //   //   };
+  //   //   reader.readAsDataURL(files[0]);
+  //   //   console.log(files);
+  //   //   console.log(`reader : ${reader}`);
+  //   // } else {
+  //   //   setFormValues((prev) => ({ ...prev, [name]: value }));
+  //   // }
+  // };
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", formValues.name);
-    formData.append("category", formValues.category);
-    formData.append("image", formValues.image);
-    formData.append("price", formValues.price);
-    formData.append("label", formValues.label);
-    formData.append("status", formValues.status);
     try {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("category", category);
+      formData.append("image", image);
+      formData.append("price", price);
+      formData.append("label", label);
+      formData.append("status", status);
       const response = await axios.post("http://localhost:5000/products", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-      alert("Product Uplaoded!");
+      alert("Product Uploaded!");
+      // console.log(formData);
+      // for (let pair of formData.entries()) {
+      //   console.log(pair[0] + "," + pair[1]);
+      // }
     } catch (error) {
       console.log("Product Failed to Uplaod!", error);
     }
   };
-
+  useEffect(() => {
+    console.log(image);
+  }, [image]);
   return (
     <div className="p-5">
       <h1 className="text-2xl font-bold">Create Product</h1>
       <form action="" className="my-6" onSubmit={handleSubmit}>
-        <Input label="Product Name" color="teal" className="text-black" onChange={handleInputChange} />
-        <select name="" className=" border-b w-full px-4 py-2" id="" onChange={handleInputChange}>
+        <Input label="Product Name" color="teal" className="text-black" onChange={handleName} value={name} />
+        <select name="" className=" border-b w-full px-4 py-2" id="" onChange={handleCategory} value={category}>
           <option value="" defaultValue hidden>
             Category
           </option>
@@ -63,10 +103,10 @@ const Create = ({ fetchCategory, fetchLabel, fetchStatus }) => {
             </option>
           ))}
         </select>
-        <input type="file" name="" id="" onChange={handleInputChange} />
-        <Input label="Price" color="teal" className="text-black" onChange={handleInputChange} />
-        <select name="" id="" onChange={handleInputChange}>
-          <option value="" selected hidden>
+        <input type="file" name="" id="" onChange={handleImage} />
+        <Input label="Price" color="teal" className="text-black" onChange={handlePrice} value={price} />
+        <select name="" id="" onChange={handleLabel} value={label}>
+          <option value="" defaultValue hidden>
             Label
           </option>
           {fetchLabel.map((item) => (
@@ -75,8 +115,8 @@ const Create = ({ fetchCategory, fetchLabel, fetchStatus }) => {
             </option>
           ))}
         </select>
-        <select name="" id="" onChange={handleInputChange}>
-          <option value="" selected hidden>
+        <select name="" id="" onChange={handleStatus} value={status}>
+          <option value="" defaultValue hidden>
             Status
           </option>
           {fetchStatus.map((item) => (
