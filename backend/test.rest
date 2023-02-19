@@ -1,0 +1,10 @@
+GET http://localhost:5000/products
+
+###
+POST http://localhost:5000/
+Content-Type: application/json
+
+{
+    "email" : "guswire",
+    "password" : "123"
+}
