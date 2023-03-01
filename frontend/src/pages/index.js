@@ -1,7 +1,18 @@
+import Login from "@/components/Login";
 import Sidebar from "@/components/Sidebar";
+import { useRouter } from "next/router";
 import Head from "next/head";
+import Dashboard from "./dashboard";
+import { useEffect } from "react";
 
-export default function Home() {
+export default function Home({ token, setToken }) {
+  const router = useRouter();
+
+  if (token) {
+    router.push("/dashboard");
+    return null;
+  }
+
   return (
     <>
       <Head>
@@ -10,7 +21,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main></main>
+      <main className="">
+        <Login setToken={setToken} />
+      </main>
     </>
   );
 }

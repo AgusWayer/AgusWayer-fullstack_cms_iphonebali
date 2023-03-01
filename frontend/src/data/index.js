@@ -5,7 +5,7 @@ export const tableHead = [
   },
   {
     id: 2,
-    name: "Product",
+    name: "Nama Product",
   },
   {
     id: 3,
@@ -17,11 +17,11 @@ export const tableHead = [
   },
   {
     id: 5,
-    name: "Price",
+    name: "Stock",
   },
   {
     id: 6,
-    name: "Label",
+    name: "Price",
   },
   {
     id: 7,
@@ -49,5 +49,36 @@ export const optionData = [
   {
     id: 4,
     name: "Accessories",
+  },
+];
+
+export const tableHeadUser = [
+  {
+    id: 1,
+    name: "No",
+  },
+  {
+    id: 2,
+    name: "User",
+  },
+  {
+    id: 3,
+    name: "Profile Picture",
+  },
+  {
+    id: 4,
+    name: "Role",
+  },
+  {
+    id: 5,
+    name: "Email",
+  },
+  {
+    id: 6,
+    name: "No. Telp",
+  },
+  {
+    id: 6,
+    name: "Aksi",
   },
 ];

@@ -9,7 +9,23 @@ module.exports = withMT({
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    fontFamily: {
+      poppins: ["Poppins", "ui-sans-serif"],
+    },
+    extend: {
+      colors: {
+        "teal-custom": "#29AB91",
+      },
+      animation: {
+        "popping-up": "popup .3s linear",
+      },
+      keyframes: {
+        popup: {
+          "0%": { transform: "scale(0%)" },
+          "50%": { transform: "scale(100%)" },
+        },
+      },
+    },
   },
   plugins: [],
 });

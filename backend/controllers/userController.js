@@ -33,15 +33,18 @@ export const logInUser = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).send({ error: "Email invalid" });
+      return res.send({ message: "Data invalid" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).send({ error: "Password invalid" });
+      return res.send({ message: "Password invalid" });
     }
-
-    res.send({ message: "Successfully Login" });
-  } catch (error) {}
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    req.session.token = token;
+    res.send({ message: "Successfully Login", token });
+  } catch (error) {
+    res.status(400).send({ error });
+  }
 };
 
 export const deleteUserById = async (req, res) => {
